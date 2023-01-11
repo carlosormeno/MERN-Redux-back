@@ -1,16 +1,28 @@
 pipeline {
 	agent any
-	environment{
-		PATH = "/PATH_EMULATOR/bin:${env.PATH}"
-	}
 	stages {
+		stage("verify tooling") {
+      steps {
+        sh '''
+          docker version
+          docker info
+          docker compose version 
+          curl --version
+          jq --version
+        '''
+      }
+    }
+	stage('Prune Docker data') {
+      steps {
+        sh 'docker system prune -a --volumes -f'
+      }
+    }
+    
 		stage("Build") {
 			steps {
 				echo 'Building docker images...'
 				sh '''
-					docker info
-					docker version
-					docker compose version					
+					docker compose build
 				'''
 			}
 		}
@@ -23,7 +35,7 @@ pipeline {
 			steps {
 				echo 'Deploying to production...'
 				sh '''
-					docker-compose up -d --force-recreate bd
+					docker compose up -d --force-recreate bd
 				''' 
 			}
 		}
