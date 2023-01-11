@@ -5,8 +5,9 @@ pipeline {
 			steps {
 				echo 'Building docker images...'
 				sh '''
-					docker-compose --version
-					docker-compose build
+					docker info
+					docker version
+					docker compose version					
 				'''
 			}
 		}
