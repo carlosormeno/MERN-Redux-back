@@ -1,5 +1,8 @@
 pipeline {
 	agent any
+	environment{
+		PATH = "/PATH_EMULATOR/bin:${env.PATH}"
+	}
 	stages {
 		stage("Build") {
 			steps {
