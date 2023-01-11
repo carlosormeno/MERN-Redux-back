@@ -5,7 +5,8 @@ pipeline {
 			steps {
 				echo 'Building docker images...'
 				sh '''
-					docker-compose -f docker-compose.yml build
+					docker-compose --version
+					docker-compose build
 				'''
 			}
 		}
